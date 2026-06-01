@@ -9,3 +9,6 @@ paddlepaddle==2.6.2
 paddleocr==2.7.3
 Pillow==10.3.0
 numpy==1.26.4
+sudachipy==0.6.11
+sudachidict-full==20240409
+pykakasi==2.2.1
