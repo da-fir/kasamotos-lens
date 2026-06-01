@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers import analyze
 from app.services.ocr_service import ocr_service
 from app.services.nlp_service import nlp_service
+from app.services.ai_service import ai_service
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -12,6 +13,7 @@ logging.basicConfig(level=logging.INFO)
 async def lifespan(app: FastAPI):
     ocr_service.initialize()
     nlp_service.initialize()
+    ai_service.initialize()
     yield
 
 app = FastAPI(
@@ -35,4 +37,5 @@ def health():
         "status": "ok",
         "ocr_ready": ocr_service._initialized,
         "nlp_ready": nlp_service._initialized,
+        "ai_ready": ai_service._initialized,
     }

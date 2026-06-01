@@ -81,6 +81,7 @@ class NLPService:
             "接尾辞": "suffix",
             "記号": "symbol",
             "空白": "whitespace",
+            "補助記号": "symbol",
         }
         main_pos = sudachi_pos[0] if sudachi_pos else "unknown"
         return pos_map.get(main_pos, main_pos)
