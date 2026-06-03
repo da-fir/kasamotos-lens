@@ -14,3 +14,4 @@ sudachidict-full==20240409
 pykakasi==2.2.1
 google-genai==1.16.0
 tenacity==8.3.0
+supabase==2.15.0
