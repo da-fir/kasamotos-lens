@@ -1,4 +1,6 @@
+from email.mime import text
 import logging
+import re
 import uuid
 from datetime import datetime, timezone
 
@@ -114,6 +116,26 @@ async def analyze(file: UploadFile = File(...)):
         )
 
     logger.info(f"OCR extracted: {raw_text[:100]}")
+
+    # ── 2.5 Filter non-Japanese lines ────────────────────────────────────
+    import re
+
+    def _filter_japanese(text: str) -> str:
+        """Remove lines with no Japanese characters (watermarks, roman text)."""
+        lines = text.split('\n')
+        japanese_lines = [
+            line for line in lines
+            if re.search(r'[\u3040-\u9FFF]', line)
+        ]
+        return '\n'.join(japanese_lines)
+
+    raw_text = _filter_japanese(raw_text)
+
+    if not raw_text.strip():
+        raise HTTPException(
+            status_code=422,
+            detail="No Japanese text detected in this image. Try a clearer photo."
+        )
 
     # ── 3. NLP ───────────────────────────────────────────────────────────
     try:
